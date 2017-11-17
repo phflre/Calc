@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>TypeScript with RequireJS</title>
+</head>
+<body>
+    <script src="/static/knockout.js" type="text/javascript"></script>
+    <script src="/static/require.js" type="text/javascript"></script>
+    <script src="/static/jquery-2.2.0.min.js" type="text/javascript"></script>
+    <script src="/static/UniqaLifeCalc.js" type="text/javascript"></script>
+    <script>
+        (function () {
+            requirejs.config({
+                baseUrl: "/static"
+            });
+            require(["require", "exports", "ViewModels/MainViewModel"], function (require, exports, MainViewModel) {
+                ko.components.register('D1', {
+                    viewModel: { require: 'ViewModels/D1ViewModel' },
+                    template: { require: 'text!templates/D1.html' }
+                });
+                ko.components.register('VM1', {
+                    viewModel: { require: 'ViewModels/VM1ViewModel' },
+                    template: { require: 'text!templates/VM1.html' }
+                });
+                ko.components.register('S8', {
+                    viewModel: { require: 'ViewModels/S8ViewModel' },
+                    template: { require: 'text!templates/S8.html' }
+                });
+                ko.applyBindings(new MainViewModel());
+            });
+        })();
+    </script>
+    <select data-bind="options: RootViewModels, value: SecontViewModels, optionsText: 'label', optionsValue: 'value'"></select>
+    <select data-bind="options: SecontViewModels, value: SelectedViewName, optionsText: 'label', optionsValue: 'value'"></select>
+    <div data-bind="component: {name: 'D1'}, visible: SelectedViewName() == 'D1'"></div>
+    <div data-bind="component: {name: 'S8'}, visible: SelectedViewName() == 'S8'"></div>
+    <div data-bind="component: {name: 'VM1'}, visible: SelectedViewName() == 'VM1'"></div>
+</body>
+</html>
